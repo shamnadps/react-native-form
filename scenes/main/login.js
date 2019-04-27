@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
 import commonStyles from '../common/styles';
-import Button from '../components/Button';
+import CustomButton from '../components/Button';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Login extends Component {
     constructor(props) {
@@ -44,10 +46,15 @@ export default class Login extends Component {
                                 onChangeText={(firstName) => this.handlePassword(firstName)}
                                 value={this.state.firstName} />
                         </View>
-                        <Button navigate='Main'
+                        <CustomButton navigate='Main'
                             navigation={this.props.navigation}
                             position='bottom'
                             text="Login" />
+                        <CustomButton navigate='Register'
+                            navigation={this.props.navigation}
+                            position='bottom'
+                            type='plain'
+                            text="Register" />
                     </ScrollView>
                 </View >
 
@@ -80,8 +87,7 @@ const styles = StyleSheet.create({
     card: {
         marginTop: 15,
         textAlign: 'left',
-        width: 300,
-        padding: 10
+        width: 250,
     },
     cardTop: {
         textAlign: 'left',

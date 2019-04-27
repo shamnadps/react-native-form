@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
+import SwitchSelector from "react-native-switch-selector";
 
 export default class Register extends Component {
     constructor(props) {
@@ -29,7 +30,15 @@ export default class Register extends Component {
                     <ScrollView contentContainerStyle={styles.containerStyle}>
                         <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Registration</Text>
                         <View style={styles.card}>
-                            <Text style={{ color: 'grey' }}>Login ID</Text>
+                            <Text style={{ color: 'grey' }}>Name</Text>
+                            <TextInput
+
+                                style={[commonStyles.input, commonStyles.shadowBox]}
+                                onChangeText={(firstName) => this.handleLoginId(firstName)}
+                                value={this.state.firstName} />
+                        </View>
+                        <View style={styles.card}>
+                            <Text style={{ color: 'grey' }}>Mobile No</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
@@ -42,6 +51,48 @@ export default class Register extends Component {
                                 secureTextEntry={true}
                                 style={[commonStyles.input, commonStyles.shadowBox]}
                                 onChangeText={(firstName) => this.handlePassword(firstName)}
+                                value={this.state.firstName} />
+                        </View>
+                        <View style={styles.card}>
+                            <Text style={{ color: 'grey' }}>Confirm Password</Text>
+                            <TextInput
+                                secureTextEntry={true}
+                                style={[commonStyles.input, commonStyles.shadowBox]}
+                                onChangeText={(firstName) => this.handlePassword(firstName)}
+                                value={this.state.firstName} />
+                        </View>
+                        <View style={styles.card}>
+                            <Text style={{ color: 'grey' }}>Sex</Text>
+                            <SwitchSelector
+                                initial={2}
+                                onPress={value => this.setState({ gender: value })}
+                                textColor={'#F76B8A'} //'#7a44cf'
+                                selectedColor={'#FFFFFF'}
+                                buttonColor={'#F76B8A'}
+                                borderColor={'lightgrey'}
+                                hasPadding
+                                borderRadius={5}
+                                options={[
+                                    { label: "Female", value: "f" }, //images.feminino = require('./path_to/assets/img/feminino.png')
+                                    { label: "Male", value: "m" },
+                                    { label: "Other", value: "n" }
+                                ]}
+                            />
+                        </View>
+                        <View style={styles.card}>
+                            <Text style={{ color: 'grey' }}>Email</Text>
+                            <TextInput
+
+                                style={[commonStyles.input, commonStyles.shadowBox]}
+                                onChangeText={(firstName) => this.handleLoginId(firstName)}
+                                value={this.state.firstName} />
+                        </View>
+                        <View style={styles.card}>
+                            <Text style={{ color: 'grey' }}>Address</Text>
+                            <TextInput
+
+                                style={[commonStyles.input, commonStyles.shadowBox]}
+                                onChangeText={(firstName) => this.handleLoginId(firstName)}
                                 value={this.state.firstName} />
                         </View>
                         <Button navigate='Login'
@@ -80,8 +131,7 @@ const styles = StyleSheet.create({
     card: {
         marginTop: 15,
         textAlign: 'left',
-        width: 300,
-        padding: 10
+        width: 250
     },
     cardTop: {
         textAlign: 'left',

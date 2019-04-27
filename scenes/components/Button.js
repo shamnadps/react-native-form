@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform, TouchableOpacity, View, StyleSheet, Text, Button, TextInput } from 'react-native';
+
 class RoundButton extends React.Component {
     constructor(props) {
         super(props);
@@ -9,6 +10,7 @@ class RoundButton extends React.Component {
         this.props.navigation.navigate(route);
     }
 
+
     render() {
         return (
             <View style={styles.container}>
@@ -16,6 +18,7 @@ class RoundButton extends React.Component {
                     <Text style={{ color: this.props.type === 'plain' ? '#F76B8A' : 'white' }}>{this.props.text}</Text>
                 </TouchableOpacity>
             </View >
+
         )
     }
 }
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
         }),
         width: 200,
         borderWidth: 1,
-        borderRadius: 25,
+        borderRadius: 10,
         borderColor: 'rgba(157, 163, 180, 0.25)',
         marginLeft: 5,
         marginRight: 5,

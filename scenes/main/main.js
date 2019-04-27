@@ -28,26 +28,8 @@ export default class Main extends Component {
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
                         <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Main Screen</Text>
-                        <View style={styles.card}>
-                            <Text style={{ color: 'grey' }}>Login ID</Text>
-                            <TextInput
 
-                                style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
-                        </View>
-                        <View style={styles.card}>
-                            <Text style={{ color: 'grey' }}>Password</Text>
-                            <TextInput
-                                secureTextEntry={true}
-                                style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handlePassword(firstName)}
-                                value={this.state.firstName} />
-                        </View>
-                        <Button navigate='Main'
-                            navigation={this.props.navigation}
-                            position='bottom'
-                            text="Login" />
+
                     </ScrollView>
                 </View >
 
