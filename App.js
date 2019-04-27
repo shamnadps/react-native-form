@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-
+import SplashScreen from 'react-native-splash-screen';
 import Register from './scenes/main/register';
 import Login from './scenes/main/login';
 import Main from './scenes/main/main';
@@ -32,9 +32,19 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const App = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
-export default App;
+export default class App extends Component {
+  componentDidMount() {
+    SplashScreen.hide()
+  }
+
+  render() {
+    return (
+      <AppContainer />
+    );
+  }
+}
 
 
 
