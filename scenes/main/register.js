@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import SwitchSelector from "react-native-switch-selector";
 
 export default class Register extends Component {
+    static navigationOptions = { header: null };
     constructor(props) {
         super(props);
         const { navigation } = this.props;
@@ -99,6 +100,11 @@ export default class Register extends Component {
                             navigation={this.props.navigation}
                             position='bottom'
                             text="Register" />
+                        <Button navigate='Login'
+                            navigation={this.props.navigation}
+                            position='bottom'
+                            type='plain'
+                            text="Cancel" />
                     </ScrollView>
                 </View >
 

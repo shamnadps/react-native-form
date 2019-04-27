@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        margin: 20,
+        marginTop: 15,
     },
     button: {
         fontWeight: Platform.select({

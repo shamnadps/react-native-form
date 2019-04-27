@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Login extends Component {
+    static navigationOptions = { header: null };
     constructor(props) {
         super(props);
         const { navigation } = this.props;
