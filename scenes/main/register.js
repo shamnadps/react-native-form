@@ -105,6 +105,9 @@ export default class Register extends Component {
                             position='bottom'
                             type='plain'
                             text="Cancel" />
+                        <View style={{ margin: 20 }}>
+
+                        </View>
                     </ScrollView>
                 </View >
 
