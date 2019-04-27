@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
-import commonStyles from './common/styles';
-import Button from './components/Button';
+import commonStyles from '../common/styles';
+import Button from '../components/Button';
 
-export default class ConsentForm extends Component {
+export default class Main extends Component {
     constructor(props) {
         super(props);
         const { navigation } = this.props;
@@ -27,7 +27,7 @@ export default class ConsentForm extends Component {
 
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
-                        <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Welcome</Text>
+                        <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Main Screen</Text>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Login ID</Text>
                             <TextInput
