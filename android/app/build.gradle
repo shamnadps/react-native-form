@@ -101,12 +101,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+    }
+
     defaultConfig {
         applicationId "com.patient_poc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
@@ -138,6 +143,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-camera')
+    implementation project(':react-native-pdf')
+    implementation project(':rn-fetch-blob')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')

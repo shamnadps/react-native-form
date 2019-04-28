@@ -3,6 +3,9 @@ package com.patient_poc;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
+import org.wonday.pdf.RCTPdfView;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -27,6 +30,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
+            new RCTPdfView(),
+            new RNFetchBlobPackage(),
             new SplashScreenReactPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage()

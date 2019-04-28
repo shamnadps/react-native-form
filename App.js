@@ -13,6 +13,7 @@ import SplashScreen from 'react-native-splash-screen';
 import Register from './scenes/main/register';
 import Login from './scenes/main/login';
 import Main from './scenes/main/main';
+import Record from './scenes/main/record';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -25,7 +26,8 @@ const AppNavigator = createStackNavigator(
   {
     Login: Login,
     Register: Register,
-    Main: Main
+    Main: Main,
+    Record: Record
   },
   {
     initialRouteName: "Login"

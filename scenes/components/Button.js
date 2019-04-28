@@ -12,9 +12,10 @@ class RoundButton extends React.Component {
 
 
     render() {
+
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={[styles.button, this.props.type === 'plain' ? styles.plain : null]} onPress={() => this.handleOnPress(this.props.navigate)} >
+                <TouchableOpacity style={[styles.button, this.props.type === 'plain' ? styles.plain : null, { width: this.props.width ? this.props.width : 200 }]} onPress={() => this.handleOnPress(this.props.navigate)} >
                     <Text style={{ color: this.props.type === 'plain' ? '#F76B8A' : 'white' }}>{this.props.text}</Text>
                 </TouchableOpacity>
             </View >
@@ -51,7 +52,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         color: '#F76B8A',
         borderColor: '#F76B8A',
-    }
+    },
+
 });
 
 export default RoundButton;
