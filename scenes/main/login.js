@@ -30,7 +30,7 @@ export default class Login extends Component {
 
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
-                        <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Welcome</Text>
+                        <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Patient Consent</Text>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Login ID</Text>
                             <TextInput
