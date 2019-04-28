@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, ActivityIndicator, PermissionsAndroid, CameraRoll } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
 import SwitchSelector from "react-native-switch-selector";
@@ -17,28 +17,55 @@ export default class Record extends Component {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            loginId: this.props.loginId,
-            password: this.props.password
+            recordOptions: {
+                mute: false,
+                maxDuration: 5,
+                quality: RNCamera.Constants.VideoQuality['288p'],
+            },
+            recording: false,
+            processing: false,
+            error: ''
         }
     }
+    async componentDidMount() {
+        await this.checkPermission()
+    };
 
-    handleLoginId = (loginId) => {
-        this.setState({ loginId: loginId });
+    async checkPermission() {
+        if (Platform.OS !== 'android') {
+            return Promise.resolve(true);
+        }
+
+        let result;
+        try {
+            result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, { title: 'Microphone Permission', message: 'App needs access to your microphone' });
+            result2 = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, { title: 'Storage Permission', message: 'App needs access to your storage' });
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+        return (result === true || result === PermissionsAndroid.RESULTS.GRANTED && result2 === true || result2 === PermissionsAndroid.RESULTS.GRANTED);
     }
-
-    handlePassword = (password) => {
-        this.setState({ password: password });
-    }
-
 
     async startRecording() {
-        this.setState({ recording: true });
-        // default to mp4 for android as codec is not set
-        const { uri, codec = "mp4" } = await this.camera.recordAsync();
+        try {
+            this.setState({ recording: true });
+            // default to mp4 for android as codec is not set
+            const { uri, codec = "mp4" } = await this.camera.recordAsync();
+            this.setState({ recording: false, processing: true });
+            await CameraRoll.saveToCameraRoll(uri, 'video');
+            this.setState({ recording: false, processing: false });
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+
     }
 
     stopRecording() {
-        this.camera.stopRecording();
+        try {
+            this.camera.stopRecording();
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
     }
 
     render() {
@@ -73,6 +100,7 @@ export default class Record extends Component {
 
         return (
             <View style={styles.container}>
+                <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>{this.state.error}</Text>
                 <RNCamera
                     ref={ref => {
                         this.camera = ref;
