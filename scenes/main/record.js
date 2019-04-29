@@ -3,8 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,
-    ActivityIndicator
+    TouchableOpacity
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import { RNCamera } from 'react-native-camera';
@@ -29,7 +28,7 @@ export default class CameraScreen extends React.Component {
         ratio: '16:9',
         recordOptions: {
             mute: false,
-            maxDuration: 30,
+            maxDuration: 60,
             quality: RNCamera.Constants.VideoQuality['288p'],
         },
         isRecording: false,
@@ -43,6 +42,7 @@ export default class CameraScreen extends React.Component {
     };
 
     takeVideo = async function () {
+        console.log('inside take video method');
         if (this.camera) {
             try {
                 const promise = this.camera.recordAsync(this.state.recordOptions);
@@ -58,6 +58,17 @@ export default class CameraScreen extends React.Component {
                         icon: "success"
                     });
                 }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    };
+
+    stopVideoRecording = async function () {
+        this.setState({ processing: true });
+        if (this.camera && this.state.isRecording) {
+            try {
+                await this.camera.stopRecording();
             } catch (e) {
                 console.error(e);
             }
@@ -112,7 +123,7 @@ export default class CameraScreen extends React.Component {
                     </View>
                     <View style={{ flex: 0, borderColor: '#F76B8A', borderWidth: 1, backgroundColor: 'white', paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={[styles.button]} onPress={this.state.isRecording ? () => { this.setState({ processing: true }) } : this.takeVideo.bind(this)} >
+                            <TouchableOpacity style={[styles.button]} onPress={this.state.isRecording ? this.stopVideoRecording.bind(this) : this.takeVideo.bind(this)} >
                                 {this.state.isRecording && !this.state.processing ? (
                                     <Text style={styles.stopText}> STOP </Text>
                                 ) : (this.state.processing ? (<Text style={styles.stopText}> PROCESSING </Text>) :

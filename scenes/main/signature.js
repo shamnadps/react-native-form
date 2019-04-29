@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import SignatureCapture from 'react-native-signature-capture';
+import CameraRoll from "@react-native-community/cameraroll";
+import Permissions from 'react-native-permissions';
 
 export default class Signature extends Component {
     static navigationOptions = {
@@ -11,7 +13,19 @@ export default class Signature extends Component {
             backgroundColor: 'white',
         },
     };
+    async componentDidMount() {
+        const currentStatus = await Permissions.check('storage');
+        if (currentStatus !== 'authorized') {
+            const status = await Permissions.request('storage');
+
+            if (status !== 'authorized') {
+                return false;
+            }
+        }
+    }
+
     render() {
+
         return (
             <View style={{ flex: 1, flexDirection: "column" }}>
                 <SignatureCapture
@@ -19,7 +33,7 @@ export default class Signature extends Component {
                     ref="sign"
                     onSaveEvent={this._onSaveEvent}
                     onDragEvent={this._onDragEvent}
-                    saveImageFileInExtStorage={false}
+                    saveImageFileInExtStorage={true}
                     showNativeButtons={false}
                     showTitleLabel={false}
                     viewMode={"portrait"} />
@@ -50,10 +64,20 @@ export default class Signature extends Component {
         this.refs["sign"].resetImage();
     }
 
-    _onSaveEvent(result) {
+    async _onSaveEvent(result) {
         //result.encoded - for the base64 encoded png
         //result.pathName - for the file path name
-        console.log(result);
+        const currentStatus = await Permissions.check('storage');
+        if (currentStatus !== 'authorized') {
+            const status = await Permissions.request('storage');
+
+            if (status !== 'authorized') {
+                return false;
+            }
+        }
+        await CameraRoll.saveToCameraRoll(result.pathName, 'photo');
+
+
     }
     _onDragEvent() {
         // This callback will be called when the user enters signature
