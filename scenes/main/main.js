@@ -51,22 +51,23 @@ export default class Main extends Component {
                                 console.log(error);
                             }}
                             style={styles.pdf} />
-                        <View
-                            style={{ flex: 0, backgroundColor: 'white', paddingBottom: 40, width: 200, flexDirection: "row", justifyContent: "center" }}
-                        >
-                            <Button navigate='Record'
-                                navigation={this.props.navigation}
-                                position='bottom'
-                                width={120}
-                                text="Accept" />
-                            <Button navigate='Login'
-                                navigation={this.props.navigation}
-                                position='bottom'
-                                type='plain'
-                                width={120}
-                                text="Log out" />
-                        </View>
+
                     </ScrollView>
+                    <View
+                        style={{ flex: 0, width: Dimensions.get('window').width, borderColor: '#F76B8A', borderWidth: 1, backgroundColor: 'white', paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}
+                    >
+                        <Button navigate='Signature'
+                            navigation={this.props.navigation}
+                            position='bottom'
+                            width={120}
+                            text="Accept" />
+                        <Button navigate='Login'
+                            navigation={this.props.navigation}
+                            position='bottom'
+                            type='plain'
+                            width={120}
+                            text="Log out" />
+                    </View>
                 </View >
 
             </View >
@@ -87,27 +88,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-    },
-    profile: {
-        marginTop: 20,
-        borderColor: '#f76b8a',
-        borderWidth: 1,
-        borderRadius: 100,
-
-    },
-    card: {
-        marginTop: 15,
-        textAlign: 'left',
-        width: 300,
-        padding: 10
-    },
-    cardTop: {
-        textAlign: 'left',
-        width: 300,
-        padding: 10,
-        borderColor: 'lightgrey',
-        borderStyle: 'solid',
-        borderTopWidth: 1,
     },
     containerStyle: {
         flexGrow: 4,

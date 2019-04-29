@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -8,10 +8,6 @@ const styles = StyleSheet.create({
         margin: 5
     },
     shadowBox: {
-        fontWeight: Platform.select({
-            ios: '500',
-            android: '200',
-        }),
         width: 250,
         alignItems: 'center',
         textAlign: 'center',

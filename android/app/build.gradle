@@ -143,10 +143,11 @@ android {
 }
 
 dependencies {
+    implementation project(':rn-fetch-blob')
+    implementation project(':react-native-signature-capture')
     implementation project(':@react-native-community_cameraroll')
     implementation project(':react-native-camera')
     implementation project(':react-native-pdf')
-    implementation project(':rn-fetch-blob')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
 import SwitchSelector from "react-native-switch-selector";

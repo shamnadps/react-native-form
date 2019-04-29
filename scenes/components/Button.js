@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, TouchableOpacity, View, StyleSheet, Text, Button, TextInput } from 'react-native';
+import { TouchableOpacity, View, StyleSheet, Text, Button, TextInput } from 'react-native';
 
 class RoundButton extends React.Component {
     constructor(props) {
@@ -32,10 +32,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     button: {
-        fontWeight: Platform.select({
-            ios: '500',
-            android: '200',
-        }),
         width: 200,
         borderWidth: 1,
         borderRadius: 10,

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
 import commonStyles from '../common/styles';
 import CustomButton from '../components/Button';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Login extends Component {
     static navigationOptions = { header: null };

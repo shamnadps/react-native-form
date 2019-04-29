@@ -68,74 +68,62 @@ export default class CameraScreen extends React.Component {
         const { canDetectFaces, canDetectText, canDetectBarcode } = this.state;
 
         return (
-            <RNCamera
-                ref={ref => {
-                    this.camera = ref;
-                }}
-                style={{
-                    flex: 1,
-                    justifyContent: 'space-between',
-                }}
-                type={this.state.type}
-                flashMode={this.state.flash}
-                zoom={this.state.zoom}
-                whiteBalance={this.state.whiteBalance}
-                ratio={this.state.ratio}
-                focusDepth={this.state.depth}
-                androidCameraPermissionOptions={{
-                    title: 'Permission to use camera',
-                    message: 'We need your permission to use your camera',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
-                androidRecordAudioPermissionOptions={{
-                    title: 'Permission to use audio recording',
-                    message: 'We need your permission to use your audio',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
-                onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                    console.log(barcodes);
-                }}
-                faceDetectionLandmarks={
-                    RNCamera.Constants.FaceDetection.Landmarks
-                        ? RNCamera.Constants.FaceDetection.Landmarks.all
-                        : undefined
-                }
-                onFacesDetected={canDetectFaces ? this.facesDetected : null}
-                onTextRecognized={canDetectText ? this.textRecognized : null}
-                onGoogleVisionBarcodesDetected={canDetectBarcode ? this.barcodeRecognized : null}
-            >
-                <View style={{ bottom: 0 }}>
-                    <View
-                        style={{
-                            height: 56,
-                            backgroundColor: 'transparent',
-                            flexDirection: 'row',
-                            alignSelf: 'flex-end',
-                        }}
-                    >
-                        <TouchableOpacity
-                            style={[
-                                styles.flipButton,
-                                {
-                                    flex: 0.3,
-                                    alignSelf: 'flex-end',
-                                    backgroundColor: this.state.isRecording ? 'white' : 'darkred',
-                                },
-                            ]}
-                            onPress={this.state.isRecording ? () => { this.setState({ processing: true }) } : this.takeVideo.bind(this)}
-                        >
-                            {this.state.isRecording && !this.state.processing ? (
-                                <Text style={styles.stopText}> STOP </Text>
-                            ) : (this.state.processing ? (<Text style={styles.stopText}> PROCESSING </Text>) :
-                                (<Text style={styles.flipText}> REC </Text>)
-                                )}
-                        </TouchableOpacity>
+            <View style={{ flex: 1, backgroundColor: 'white', flexDirection: "column" }}>
+                <RNCamera
+                    ref={ref => {
+                        this.camera = ref;
+                    }}
+                    style={{
+                        flex: 1,
+                        justifyContent: 'space-between',
+                    }}
+                    type={this.state.type}
+                    flashMode={this.state.flash}
+                    zoom={this.state.zoom}
+                    whiteBalance={this.state.whiteBalance}
+                    ratio={this.state.ratio}
+                    focusDepth={this.state.depth}
+                    androidCameraPermissionOptions={{
+                        title: 'Permission to use camera',
+                        message: 'We need your permission to use your camera',
+                        buttonPositive: 'Ok',
+                        buttonNegative: 'Cancel',
+                    }}
+                    androidRecordAudioPermissionOptions={{
+                        title: 'Permission to use audio recording',
+                        message: 'We need your permission to use your audio',
+                        buttonPositive: 'Ok',
+                        buttonNegative: 'Cancel',
+                    }}
+                    onGoogleVisionBarcodesDetected={({ barcodes }) => {
+                        console.log(barcodes);
+                    }}
+                    faceDetectionLandmarks={
+                        RNCamera.Constants.FaceDetection.Landmarks
+                            ? RNCamera.Constants.FaceDetection.Landmarks.all
+                            : undefined
+                    }
+                    onFacesDetected={canDetectFaces ? this.facesDetected : null}
+                    onTextRecognized={canDetectText ? this.textRecognized : null}
+                    onGoogleVisionBarcodesDetected={canDetectBarcode ? this.barcodeRecognized : null}
+                >
+                    <View style={{ bottom: 0 }}>
+                        <FlashMessage position="top" />
                     </View>
-                    <FlashMessage position="top" />
-                </View>
-            </RNCamera>
+                    <View style={{ flex: 0, borderColor: '#F76B8A', borderWidth: 1, backgroundColor: 'white', paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={[styles.button]} onPress={this.state.isRecording ? () => { this.setState({ processing: true }) } : this.takeVideo.bind(this)} >
+                                {this.state.isRecording && !this.state.processing ? (
+                                    <Text style={styles.stopText}> STOP </Text>
+                                ) : (this.state.processing ? (<Text style={styles.stopText}> PROCESSING </Text>) :
+                                    (<Text style={styles.flipText}> RECORD </Text>)
+                                    )}
+                            </TouchableOpacity>
+                        </View >
+                    </View>
+                </RNCamera>
+            </View>
+
         );
     }
 
@@ -168,7 +156,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     stopText: {
-        color: 'red',
+        color: 'white',
         fontSize: 15,
     },
     text: {
@@ -184,5 +172,29 @@ const styles = StyleSheet.create({
         position: 'absolute',
         textAlign: 'center',
         backgroundColor: 'transparent',
+    },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        marginTop: 15,
+    },
+    button: {
+        width: 120,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'rgba(157, 163, 180, 0.25)',
+        marginLeft: 5,
+        marginRight: 5,
+        padding: 10,
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F76B8A',
+        color: 'white'
+    },
+    plain: {
+        backgroundColor: '#FFFFFF',
+        color: '#F76B8A',
+        borderColor: '#F76B8A',
     },
 });
