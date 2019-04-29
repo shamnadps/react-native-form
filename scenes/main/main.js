@@ -61,12 +61,6 @@ export default class Main extends Component {
                             position='bottom'
                             width={120}
                             text="Accept" />
-                        <Button navigate='Login'
-                            navigation={this.props.navigation}
-                            position='bottom'
-                            type='plain'
-                            width={120}
-                            text="Log out" />
                     </View>
                 </View >
 

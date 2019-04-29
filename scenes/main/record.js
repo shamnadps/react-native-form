@@ -51,11 +51,9 @@ export default class CameraScreen extends React.Component {
                     this.setState({ isRecording: true });
                     const { uri } = await promise;
                     this.setState({ isRecording: false, processing: false });
-                    await CameraRoll.saveToCameraRoll(uri, 'video');
-                    showMessage({
-                        message: "Video saved to gallery!",
-                        type: "success",
-                        icon: "success"
+                    console.log('naivating to Video');
+                    this.props.navigation.navigate('Video', {
+                        uri: uri,
                     });
                 }
             } catch (e) {
