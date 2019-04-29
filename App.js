@@ -16,6 +16,7 @@ import Main from './scenes/main/main';
 import Record from './scenes/main/record';
 import Signature from './scenes/main/signature';
 import Video from './scenes/main/video';
+import Complete from './scenes/main/complete';
 
 const AppNavigator = createStackNavigator(
   {
@@ -24,7 +25,8 @@ const AppNavigator = createStackNavigator(
     Main: Main,
     Record: Record,
     Signature: Signature,
-    Video: Video
+    Video: Video,
+    Complete: Complete
   },
   {
     initialRouteName: "Login"

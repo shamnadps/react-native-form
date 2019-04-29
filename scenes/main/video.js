@@ -32,14 +32,22 @@ export default class VideoScreen extends React.Component {
 
     }
 
-    saveVideoToGallery = async (uri) => {
+    saveVideoToGallery = async () => {
+        console.log('inside sav to gallery');
+        this.setState({ processing: true });
+        const videoUri = this.props.navigation.getParam('uri', 'URI');
+        console.log('videoUri', videoUri);
         try {
-            await CameraRoll.saveToCameraRoll(uri, 'video');
+            console.log('saving');
+            await CameraRoll.saveToCameraRoll(videoUri, 'video');
+            console.log('done');
             showMessage({
                 message: "Video saved to gallery!",
                 type: "success",
                 icon: "success"
             });
+            this.setState({ processing: false });
+            this.props.navigation.navigate('Complete');
         } catch (error) {
             console.log(error);
         }
@@ -61,23 +69,29 @@ export default class VideoScreen extends React.Component {
                     onBuffer={this.onBuffer}                // Callback when remote video is buffering
                     onError={this.videoError}               // Callback when video cannot be loaded
                     style={styles.backgroundVideo} />
-                <View style={{ flex: 0, borderColor: '#F76B8A', borderWidth: 1, paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
-                    <View style={styles.container}>
-                        <TouchableOpacity style={[styles.button]} onPress={() => this.recordAgain()}>
-                            <Text style={{ color: 'white' }}>Record Again</Text>
-                        </TouchableOpacity>
-                    </View >
-                    <View style={styles.container}>
-                        <TouchableOpacity style={[styles.button]} >
-                            <Text style={{ color: 'white' }}>Play</Text>
-                        </TouchableOpacity>
-                    </View >
-                    <View style={styles.container}>
-                        <TouchableOpacity style={[styles.button]} onPress={() => this.saveVideoToGallery(videoUri)}>
-                            <Text style={{ color: 'white' }}>Save</Text>
-                        </TouchableOpacity>
-                    </View >
+                <View style={{ bottom: 0 }}>
+                    <FlashMessage position="top" />
                 </View>
+
+                {this.state.processing ? (
+                    <View style={{ flex: 0, borderColor: '#F76B8A', borderWidth: 1, paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
+                        <View style={styles.container}>
+                            <TouchableOpacity style={[styles.button]}>
+                                <Text style={{ color: 'white' }}>Please wait. Processing.</Text>
+                            </TouchableOpacity>
+                        </View >
+                    </View>) : (<View style={{ flex: 0, borderColor: '#F76B8A', borderWidth: 1, paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
+                        <View style={styles.container}>
+                            <TouchableOpacity style={[styles.button]} onPress={() => this.recordAgain()}>
+                                <Text style={{ color: 'white' }}>Record Again</Text>
+                            </TouchableOpacity>
+                        </View >
+                        <View style={styles.container}>
+                            <TouchableOpacity style={[styles.button]} onPress={() => this.saveVideoToGallery()}>
+                                <Text style={{ color: 'white' }}>Save</Text>
+                            </TouchableOpacity>
+                        </View >
+                    </View>)}
             </View >);
     }
 }
