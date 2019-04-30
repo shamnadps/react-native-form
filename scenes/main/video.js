@@ -3,12 +3,14 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    BackHandler
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import Video from 'react-native-video';
 import CameraRoll from "@react-native-community/cameraroll";
 import FlashMessage, { showMessage } from "react-native-flash-message";
+import VideoPlayer from 'react-native-video-controls';
 
 export default class VideoScreen extends React.Component {
     static navigationOptions = {
@@ -24,12 +26,16 @@ export default class VideoScreen extends React.Component {
         processing: false
     };
 
-    onBuffer = () => {
-
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
     }
 
-    videoError = () => {
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+    }
 
+    onBackButtonPressed() {
+        return true;
     }
 
     saveVideoToGallery = async () => {
@@ -62,13 +68,13 @@ export default class VideoScreen extends React.Component {
         console.log('videoUri', videoUri);
         return (
             <View style={{ flex: 1, flexDirection: "column" }}>
-                <Video source={{ uri: videoUri }}   // Can be a URL or a local file.
-                    ref={(ref) => {
-                        this.player = ref
-                    }}                                      // Store reference
-                    onBuffer={this.onBuffer}                // Callback when remote video is buffering
-                    onError={this.videoError}               // Callback when video cannot be loaded
-                    style={styles.backgroundVideo} />
+                <VideoPlayer
+                    source={{ uri: videoUri }}
+                    style={styles.backgroundVideo}
+                    paused={true}
+                    disableBack={true}
+                    showOnStart={true}
+                />
                 <View style={{ bottom: 0 }}>
                     <FlashMessage position="top" />
                 </View>

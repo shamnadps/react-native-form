@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, WebView, Dimensions } from 'react-native';
+import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, WebView, Dimensions, Image } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
 import Pdf from 'react-native-pdf';
@@ -40,7 +40,8 @@ export default class Complete extends Component {
 
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
-                        <Text>All Done! Here is a pony for you!</Text>
+                        <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>All Done! Here is a pony for you!</Text>
+                        <Image style={{ width: 200, height: 200 }} source={require('../images/horse.png')} />
                     </ScrollView>
                     <View
                         style={{ flex: 0, width: Dimensions.get('window').width, borderColor: '#F76B8A', borderWidth: 1, backgroundColor: 'white', paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}
