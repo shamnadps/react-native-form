@@ -33,7 +33,7 @@ const AppNavigator = createStackNavigator(
     VideoConsent: VideoConsent
   },
   {
-    initialRouteName: "Signature"
+    initialRouteName: "Login"
   }
 );
 

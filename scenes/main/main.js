@@ -72,9 +72,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    pdf: {
-        flex: 1,
-        width: Dimensions.get('window').width,
-    }
 
 });

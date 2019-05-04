@@ -38,7 +38,7 @@ export default class Signature extends Component {
     }
 
     render() {
-
+        let [date] = new Date().toLocaleString('en-US').split(', ');
         return (
             <View style={styles.container}>
                 <View style={styles.center}>
@@ -57,10 +57,9 @@ export default class Signature extends Component {
                     <View style={styles.card}>
                         <Text style={{ color: 'grey' }}>Date</Text>
                         <TextInput
-
+                            editable={false} selectTextOnFocus={false}
                             style={[commonStyles.input, commonStyles.shadowBox]}
-                            onChangeText={(firstName) => this.handleLoginId(firstName)}
-                            value={this.state.firstName} />
+                            value={date} />
                     </View>
                     <View style={styles.card}>
                         <Text style={{ color: 'grey' }}>Signature</Text>
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
     signature: {
         height: 100,
         borderWidth: 1,
-        borderColor: 'red'
     },
     buttonStyle: {
         flex: 1, justifyContent: "center", alignItems: "center", height: 50,

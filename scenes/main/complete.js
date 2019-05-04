@@ -39,7 +39,7 @@ export default class Complete extends Component {
                         <Image style={{ width: 200, height: 200 }} source={require('../images/horse.png')} />
                     </ScrollView>
                     <View
-                        style={{ flex: 0, width: Dimensions.get('window').width, borderColor: '#F76B8A', borderWidth: 1, backgroundColor: 'white', paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}
+                        style={{ flex: 0, width: Dimensions.get('window').width, borderColor: 'lightgrey', borderWidth: 1, backgroundColor: 'white', paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}
                     >
                         <Button navigate='Login'
                             navigation={this.props.navigation}
@@ -73,9 +73,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    pdf: {
-        flex: 1,
-        width: Dimensions.get('window').width,
-    }
-
 });

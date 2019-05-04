@@ -4,6 +4,7 @@ import commonStyles from '../common/styles';
 import Button from '../components/Button';
 import { CheckBox } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
+import DatePicker from 'react-native-datepicker'
 
 export default class Details extends Component {
     static navigationOptions = {
@@ -22,6 +23,8 @@ export default class Details extends Component {
             checked: false,
             ok: 'simple',
             language: 'java',
+            date:"2019-05-06",
+            disabled: true
         }
     }
 
@@ -44,7 +47,7 @@ export default class Details extends Component {
     }
 
     onRiskChange = (value) => {
-        this.setState({ riskText: this.getRuleText(value) });
+        this.setState({ riskText: this.getRuleText(value), disabled: false });
     }
 
     getRuleText = (value) => {
@@ -96,8 +99,10 @@ export default class Details extends Component {
 
         switch (value) {
             case 'Operation':
+                this.setState({disabled: false});
                 return (<Text style={{ color: 'grey' }}>Anterior Cruciate Ligament (ACL)	Reconstruction (arthroscopic) – using autograft</Text>);
             case 'Procedure':
+                this.setState({disabled: false});
                 return (<Text style={{ color: 'grey' }}>The Anterior cruciate is a ligament that runs inside the knee from the thigh bone to the shin bone giving stability to the knee joint.Loss or damage of the ligament can make the knee more prone to ‘giving way’.Your ACL has torn(ruptured).
 
                 {"\n"}{"\n"}You may have come to a joint decision with your surgeon to attempt a reconstruction.
@@ -105,6 +110,7 @@ export default class Details extends Component {
     
                 {"\n"}{"\n"}*** please be aware that a surgeon other than your consultant but with adequate training or supervision may perform the operation ***</Text>)
             case 'Alternative Procedure':
+                this.setState({disabled: false});
                 return (<Text style={{ color: 'grey' }}>Some patients simply avoid activities that cause their knees to be unstable.
 
                     {"\n"}{"\n"}Physiotherapy and increasing strength of hamstrings and quadriceps may be able to compensate for the injury.The knee may still however be prone to ‘giving way’ and instability.
@@ -113,6 +119,7 @@ export default class Details extends Component {
 
                     {"\n"}{"\n"}There are also alternative methods of reconstruction and numerous grafts that can be used.You should discuss the options with your surgeon before hand.</Text>);
             case 'Risks':
+                this.setState({disabled: true});
                 return (<View>
                     <Text style={{ color: 'grey' }}>As with all procedures, this carries some risks and complications.</Text>
                     <Dropdown
@@ -174,6 +181,34 @@ export default class Details extends Component {
                                 value={this.state.firstName} />
                         </View>
                         <View style={styles.card}>
+                            <Text style={{ color: 'grey' }}>DOB</Text>
+                            <DatePicker
+                                style={{width:250,borderWidth:1,borderColor: 'lightgrey', borderRadius:10}}
+                                date={this.state.date}
+                                mode="date"
+                                placeholder="select date"
+                                format="YYYY-MM-DD"
+                                minDate="1920-01-01"
+                                maxDate="2019-05-08"
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 4,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    marginLeft: 36,
+                                    borderWidth:0,
+                                }
+                                // ... You can check the source to find the other keys.
+                                }}
+                                onDateChange={(date) => {this.setState({date: date})}}
+                            />
+                        </View>
+                        <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>NHS Organization</Text>
                             <TextInput
 
@@ -191,7 +226,6 @@ export default class Details extends Component {
                         </View>
                         <View style={styles.card}>
                             <CheckBox
-
                                 title='No Special Requirements'
                                 containerStyle={{ backgroundColor: 'white' }}
                                 checked={this.state.checked}
@@ -213,6 +247,7 @@ export default class Details extends Component {
                         </View>
                         <Button navigate='VideoConsent'
                             navigation={this.props.navigation}
+                            disabled={this.state.disabled}
                             position='bottom'
                             type='plain'
                             text="Continue" />
