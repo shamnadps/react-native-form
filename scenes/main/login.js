@@ -45,7 +45,7 @@ export default class Login extends Component {
                                 onChangeText={(firstName) => this.handlePassword(firstName)}
                                 value={this.state.firstName} />
                         </View>
-                        <CustomButton navigate='Main'
+                        <CustomButton navigate='Details'
                             navigation={this.props.navigation}
                             position='bottom'
                             text="Login" />

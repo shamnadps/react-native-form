@@ -53,14 +53,14 @@ export default class VideoScreen extends React.Component {
                 icon: "success"
             });
             this.setState({ processing: false });
-            this.props.navigation.navigate('Complete');
+            this.props.navigation.navigate('Signature');
         } catch (error) {
             console.log(error);
         }
     }
 
     recordAgain = () => {
-        this.props.navigation.navigate('Record');
+        this.props.navigation.navigate('VideoConsent');
     }
 
     render() {
@@ -94,7 +94,7 @@ export default class VideoScreen extends React.Component {
                         </View >
                         <View style={styles.container}>
                             <TouchableOpacity style={[styles.button]} onPress={() => this.saveVideoToGallery()}>
-                                <Text style={{ color: 'white' }}>Save</Text>
+                                <Text style={{ color: 'white' }}>Continue</Text>
                             </TouchableOpacity>
                         </View >
                     </View>)}

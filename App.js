@@ -17,6 +17,8 @@ import Record from './scenes/main/record';
 import Signature from './scenes/main/signature';
 import Video from './scenes/main/video';
 import Complete from './scenes/main/complete';
+import Details from './scenes/main/details';
+import VideoConsent from './scenes/main/videoconsent';
 
 const AppNavigator = createStackNavigator(
   {
@@ -26,10 +28,12 @@ const AppNavigator = createStackNavigator(
     Record: Record,
     Signature: Signature,
     Video: Video,
-    Complete: Complete
+    Complete: Complete,
+    Details: Details,
+    VideoConsent: VideoConsent
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "Signature"
   }
 );
 

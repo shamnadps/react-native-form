@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, WebView, Dimensions } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
-import Pdf from 'react-native-pdf';
 
 export default class Main extends Component {
     static navigationOptions = {
@@ -30,27 +29,12 @@ export default class Main extends Component {
     }
 
     render() {
-        const source = Platform.select({
-            ios: require('./test.pdf'),
-            android: { uri: 'bundle-assets://test.pdf' },
-        });
+
         return (
             <View style={styles.container}>
 
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
-                        <Pdf
-                            source={source}
-                            onLoadComplete={(numberOfPages, filePath) => {
-                                console.log(`number of pages: ${numberOfPages}`);
-                            }}
-                            onPageChanged={(page, numberOfPages) => {
-                                console.log(`current page: ${page}`);
-                            }}
-                            onError={(error) => {
-                                console.log(error);
-                            }}
-                            style={styles.pdf} />
 
                     </ScrollView>
                     <View

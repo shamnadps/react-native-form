@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, WebView, Dimensions, Image } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
-import Pdf from 'react-native-pdf';
 
 export default class Complete extends Component {
     static navigationOptions = {
@@ -31,10 +30,6 @@ export default class Complete extends Component {
     }
 
     render() {
-        const source = Platform.select({
-            ios: require('./test.pdf'),
-            android: { uri: 'bundle-assets://test.pdf' },
-        });
         return (
             <View style={styles.container}>
 
