@@ -3,24 +3,47 @@ import { StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
 import SwitchSelector from "react-native-switch-selector";
+import { connect } from 'react-redux';
+import { addUser } from '../../reducer/actions';
 
-export default class Register extends Component {
-    static navigationOptions = { header: null };
+class Register extends Component {
+    static navigationOptions = {
+        title: 'Registration',
+        headerTitleStyle: { color: '#F76B8A', textAlign: 'center', alignSelf: 'center' },
+        headerStyle: {
+            backgroundColor: 'white',
+        },
+    };
     constructor(props) {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            loginId: this.props.loginId,
-            password: this.props.password
+            user: this.props.user
         }
     }
 
-    handleLoginId = (loginId) => {
-        this.setState({ loginId: loginId });
+    handleInput = (attr, value) => {
+        var user = this.state.user;
+        user[attr] = value
+        this.setState({ user: user, error: '' });
     }
 
-    handlePassword = (password) => {
-        this.setState({ password: password });
+    loginUser = () => {
+        this.props.navigation.navigate('Login');
+    }
+
+    registerUser = () => {
+        const user = this.state.user;
+        if (!user.name || !user.email || !user.address || !user.password || !user.mobile || !user.confirmPassword) {
+            this.setState({ error: 'Fields cannot be empty' })
+        }
+        else if (user.password != user.confirmPassword) {
+            this.setState({ error: 'Passwords donot match' });
+        } else {
+            this.props.addUser({ user: user });
+            this.setState({ error: '' });
+        }
+        this.props.navigation.navigate('Details');
     }
 
     render() {
@@ -29,44 +52,43 @@ export default class Register extends Component {
 
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
-                        <Text style={{ marginBottom: 20, fontSize: 20, color: '#F76B8A', fontWeight: 'bold' }}>Registration</Text>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Name</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(name) => this.handleInput('name', name)}
+                                value={this.state.user.name} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Mobile No</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(mobile) => this.handleInput('mobile', mobile)}
+                                value={this.state.user.mobile} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Password</Text>
                             <TextInput
                                 secureTextEntry={true}
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handlePassword(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(password) => this.handleInput('password', password)}
+                                value={this.state.user.password} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Confirm Password</Text>
                             <TextInput
                                 secureTextEntry={true}
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handlePassword(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(confirmPassword) => this.handleInput('confirmPassword', confirmPassword)}
+                                value={this.state.user.confirmPassword} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Sex</Text>
                             <SwitchSelector
                                 initial={2}
-                                onPress={value => this.setState({ gender: value })}
+                                onPress={value => this.handleInput('sex', value)}
                                 textColor={'#F76B8A'} //'#7a44cf'
                                 selectedColor={'#FFFFFF'}
                                 buttonColor={'#F76B8A'}
@@ -85,28 +107,31 @@ export default class Register extends Component {
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(email) => this.handleInput('email', email)}
+                                value={this.state.user.email} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Address</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(address) => this.handleInput('address', address)}
+                                value={this.state.user.address} />
                         </View>
-                        <Button navigate='Login'
-                            navigation={this.props.navigation}
-                            position='bottom'
-                            text="Register" />
-                        <Button navigate='Login'
-                            navigation={this.props.navigation}
-                            position='bottom'
-                            type='plain'
-                            text="Cancel" />
-                        <View style={{ margin: 20 }}>
+                        {this.state.error ? (
+                            <View style={{
+                                width: 250, backgroundColor: '#F76B8A', justifyContent: 'center',
+                                alignItems: 'center', color: 'white', padding: 10, marginTop: 10, borderRadius: 10
+                            }}>
+                                <Text style={{ color: 'white' }}>{this.state.error}</Text>
+                            </View>) : null}
 
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={[styles.button, styles.plain]} onPress={() => { this.registerUser() }} >
+                                <Text style={{ color: '#F76B8A' }}>Register</Text>
+                            </TouchableOpacity>
+                        </View >
+                        <View style={{ margin: 20 }}>
                         </View>
                     </ScrollView>
                 </View >
@@ -116,6 +141,16 @@ export default class Register extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    addUser: (user) => dispatch(addUser(user)),
+});
+
+const mapStateToProps = (state) => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
 
 const styles = StyleSheet.create({
     container: {
@@ -154,6 +189,30 @@ const styles = StyleSheet.create({
         flexGrow: 4,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        marginTop: 15,
+    },
+    button: {
+        width: 200,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'rgba(157, 163, 180, 0.25)',
+        marginLeft: 5,
+        marginRight: 5,
+        padding: 10,
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F76B8A',
+        color: 'white'
+    },
+    plain: {
+        backgroundColor: '#FFFFFF',
+        color: '#F76B8A',
+        borderColor: '#F76B8A',
+    },
 
 });

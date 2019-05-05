@@ -19,6 +19,11 @@ import Video from './scenes/main/video';
 import Complete from './scenes/main/complete';
 import Details from './scenes/main/details';
 import VideoConsent from './scenes/main/videoconsent';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from './store';
+
+const store = createStore(reducer);
 
 const AppNavigator = createStackNavigator(
   {
@@ -46,7 +51,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <AppContainer />
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
     );
   }
 }

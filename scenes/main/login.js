@@ -2,24 +2,40 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity } from 'react-native';
 import commonStyles from '../common/styles';
 import CustomButton from '../components/Button';
+import { connect } from 'react-redux';
+import { addUser } from '../../reducer/actions';
 
-export default class Login extends Component {
+class Login extends Component {
     static navigationOptions = { header: null };
     constructor(props) {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            loginId: this.props.loginId,
-            password: this.props.password
+            user: this.props.user
         }
     }
 
-    handleLoginId = (loginId) => {
-        this.setState({ loginId: loginId });
+    handleLoginId = (username) => {
+        this.setState({ username: username, error: '' });
     }
 
     handlePassword = (password) => {
-        this.setState({ password: password });
+        this.setState({ password: password, error: '' });
+    }
+
+    loginUser = () => {
+        const user = this.state.user;
+        if (!this.state.username || !this.state.password) {
+            this.setState({ error: 'Fields cannot be empty' })
+        }
+        else if (user.name != this.state.username) {
+            this.setState({ error: 'Username doesnt exist' });
+        } else if (user.password != this.state.password) {
+            this.setState({ error: 'Wrong Password' });
+        } else {
+            this.setState({ error: '' });
+            this.props.navigation.navigate('Details');
+        }
     }
 
     render() {
@@ -42,13 +58,21 @@ export default class Login extends Component {
                             <TextInput
                                 secureTextEntry={true}
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handlePassword(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(password) => this.handlePassword(password)}
+                                value={this.state.password} />
                         </View>
-                        <CustomButton navigate='Details'
-                            navigation={this.props.navigation}
-                            position='bottom'
-                            text="Login" />
+                        {this.state.error ? (
+                            <View style={{
+                                width: 250, backgroundColor: '#F76B8A', justifyContent: 'center',
+                                alignItems: 'center', color: 'white', padding: 10, marginTop: 10, borderRadius: 10
+                            }}>
+                                <Text style={{ color: 'white' }}>{this.state.error}</Text>
+                            </View>) : null}
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={[styles.button]} onPress={() => { this.loginUser() }} >
+                                <Text style={{ color: 'white' }}>Login</Text>
+                            </TouchableOpacity>
+                        </View >
                         <CustomButton navigate='Register'
                             navigation={this.props.navigation}
                             position='bottom'
@@ -62,6 +86,16 @@ export default class Login extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    addUser: (user) => dispatch(addUser(user)),
+});
+
+const mapStateToProps = (state) => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
     container: {
@@ -100,6 +134,30 @@ const styles = StyleSheet.create({
         flexGrow: 4,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        marginTop: 15,
+    },
+    button: {
+        width: 200,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'rgba(157, 163, 180, 0.25)',
+        marginLeft: 5,
+        marginRight: 5,
+        padding: 10,
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F76B8A',
+        color: 'white'
+    },
+    plain: {
+        backgroundColor: '#FFFFFF',
+        color: '#F76B8A',
+        borderColor: '#F76B8A',
+    },
 
 });

@@ -5,8 +5,10 @@ import Button from '../components/Button';
 import { CheckBox } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker'
+import { connect } from 'react-redux';
+import { addUser } from '../../reducer/actions';
 
-export default class Details extends Component {
+class Details extends Component {
     static navigationOptions = {
         title: 'Patient Detail',
         headerTitleStyle: { color: '#F76B8A', textAlign: 'center', alignSelf: 'center' },
@@ -24,7 +26,8 @@ export default class Details extends Component {
             ok: 'simple',
             language: 'java',
             date:"2019-05-06",
-            disabled: true
+            disabled: true,
+            user: this.props.user
         }
     }
 
@@ -147,6 +150,9 @@ export default class Details extends Component {
             <View style={styles.container}>
 
                 <View style={styles.center}>
+                    <View style={styles.card}>
+                        <Text style={{ color: '#F76B8A', fontWeight : 'bold' }}>Welcome {this.state.user.name}</Text>
+                    </View>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Responsible Surgeon</Text>
@@ -262,6 +268,16 @@ export default class Details extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    addUser: (user) => dispatch(addUser(user)),
+});
+
+const mapStateToProps = (state) => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);
 
 const styles = StyleSheet.create({
     container: {
