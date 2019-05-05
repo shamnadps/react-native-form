@@ -39,14 +39,10 @@ export default class VideoScreen extends React.Component {
     }
 
     saveVideoToGallery = async () => {
-        console.log('inside sav to gallery');
         this.setState({ processing: true });
         const videoUri = this.props.navigation.getParam('uri', 'URI');
-        console.log('videoUri', videoUri);
         try {
-            console.log('saving');
             await CameraRoll.saveToCameraRoll(videoUri, 'video');
-            console.log('done');
             showMessage({
                 message: "Video saved to gallery!",
                 type: "success",

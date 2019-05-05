@@ -6,7 +6,7 @@ import { CheckBox } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker'
 import { connect } from 'react-redux';
-import { addUser } from '../../reducer/actions';
+import { updateConsent } from '../../reducer/actions';
 
 class Details extends Component {
     static navigationOptions = {
@@ -27,30 +27,48 @@ class Details extends Component {
             language: 'java',
             date:"2019-05-06",
             disabled: true,
-            user: this.props.user
+            user: this.props.user,
+            consent: this.props.consent
         }
     }
 
-    handleLoginId = (loginId) => {
-        this.setState({ loginId: loginId });
-    }
-
-    handlePassword = (password) => {
-        this.setState({ password: password });
+    handleInput = (attr, value) => {
+        var consent = this.state.consent;
+        consent[attr] = value
+        this.setState({ consent: consent, error: '' });
     }
 
     checkBoxOnChange = () => {
-        this.setState({ checked: !this.state.checked });
+        const consent = this.state.consent;
+        consent.nospecialrequirements = !this.state.checked;
+        this.setState({ checked: !this.state.checked, consent:consent });
     }
 
     onDropDownChange = (value) => {
+        const consent = this.state.consent;
+        consent.main = value;
         this.setState({
-            consentText: this.getConsentData(value)
+            consentText: this.getConsentData(value),
+            consent: consent
         });
     }
 
     onRiskChange = (value) => {
-        this.setState({ riskText: this.getRuleText(value), disabled: false });
+        const consent = this.state.consent;
+        consent.risk = value;
+        this.setState({ riskText: this.getRuleText(value), disabled: false , consent:consent});
+    }
+
+    updateConsentDetails = () => {
+        const consent = this.state.consent;
+        if (!consent.firstName || !consent.surname
+            || !consent.surgeon || !consent.organization || !consent.hospital || !consent.job ) {
+                this.setState({ error: 'Fields cannot be empty' })
+        } else {
+            this.setState({ error: '' });
+            this.props.updateConsent({ consent: consent });
+            this.props.navigation.navigate('VideoConsent');
+        }
     }
 
     getRuleText = (value) => {
@@ -159,32 +177,32 @@ class Details extends Component {
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(surgeon) => this.handleInput('surgeon', surgeon)}
+                                value={this.state.consent.surgeon} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>First Name</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(firstName) => this.handleInput('firstName', firstName)}
+                                value={this.state.consent.firstName} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Surname</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(surname) => this.handleInput('surname', surname)}
+                                value={this.state.consent.surname} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Hospital No</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(hospital) => this.handleInput('hospital', hospital)}
+                                value={this.state.consent.hospital} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>DOB</Text>
@@ -211,7 +229,7 @@ class Details extends Component {
                                 }
                                 // ... You can check the source to find the other keys.
                                 }}
-                                onDateChange={(date) => {this.setState({date: date})}}
+                                onDateChange={(date) => this.handleInput('date', date)}
                             />
                         </View>
                         <View style={styles.card}>
@@ -219,16 +237,16 @@ class Details extends Component {
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(organization) => this.handleInput('organization', organization)}
+                                value={this.state.consent.organization} />
                         </View>
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Job Title</Text>
                             <TextInput
 
                                 style={[commonStyles.input, commonStyles.shadowBox]}
-                                onChangeText={(firstName) => this.handleLoginId(firstName)}
-                                value={this.state.firstName} />
+                                onChangeText={(job) => this.handleInput('job', job)}
+                                value={this.state.consent.job} />
                         </View>
                         <View style={styles.card}>
                             <CheckBox
@@ -251,12 +269,18 @@ class Details extends Component {
                         <View style={styles.card}>
                             {this.state.riskText}
                         </View>
-                        <Button navigate='VideoConsent'
-                            navigation={this.props.navigation}
-                            disabled={this.state.disabled}
-                            position='bottom'
-                            type='plain'
-                            text="Continue" />
+                        {this.state.error ? (
+                            <View style={{
+                                width: 250, backgroundColor: '#F76B8A', justifyContent: 'center',
+                                alignItems: 'center', color: 'white', padding: 10, marginTop: 10, borderRadius: 10
+                            }}>
+                                <Text style={{ color: 'white' }}>{this.state.error}</Text>
+                            </View>) : null}
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={[styles.button, styles.plain]} onPress={() => { this.updateConsentDetails() }} >
+                                <Text style={{ color: '#F76B8A' }}>Continue</Text>
+                            </TouchableOpacity>
+                        </View >
                         <View style={{ margin: 20 }}>
 
                         </View>
@@ -270,11 +294,12 @@ class Details extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addUser: (user) => dispatch(addUser(user)),
+    updateConsent: (consent) => dispatch(updateConsent(consent)),
 });
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    user: state.user,
+    consent: state.consent
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Details);
@@ -316,6 +341,30 @@ const styles = StyleSheet.create({
         flexGrow: 4,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        marginTop: 15,
+    },
+    button: {
+        width: 200,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'rgba(157, 163, 180, 0.25)',
+        marginLeft: 5,
+        marginRight: 5,
+        padding: 10,
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F76B8A',
+        color: 'white'
+    },
+    plain: {
+        backgroundColor: '#FFFFFF',
+        color: '#F76B8A',
+        borderColor: '#F76B8A',
+    },
 
 });

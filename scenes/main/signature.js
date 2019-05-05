@@ -5,8 +5,10 @@ import SignatureCapture from 'react-native-signature-capture';
 import CameraRoll from "@react-native-community/cameraroll";
 import Permissions from 'react-native-permissions';
 import commonStyles from '../common/styles';
+import { connect } from 'react-redux';
+import { updateConsent } from '../../reducer/actions';
 
-export default class Signature extends Component {
+class Signature extends Component {
     static navigationOptions = {
         title: 'Signature Consent',
         headerTitleStyle: { color: '#F76B8A', textAlign: 'center', alignSelf: 'center' },
@@ -18,12 +20,14 @@ export default class Signature extends Component {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            firstName: '',
+            consent: this.props.consent
         }
     }
 
-    handlePatientName = (firstName) => {
-        this.setState({ firstName: firstName });
+    handleInput = (attr, value) => {
+        var consent = this.state.consent;
+        consent[attr] = value
+        this.setState({ consent: consent, error: '' });
     }
 
     async componentDidMount() {
@@ -51,7 +55,7 @@ export default class Signature extends Component {
                         <Text style={{ color: 'grey' }}>First Name</Text>
                         <TextInput
                             style={[commonStyles.input, commonStyles.shadowBox]}
-                            onChangeText={(firstName) => this.handlePatientName(firstName)}
+                            onChangeText={(patientName) => this.handleInput('patientName', patientName)}
                             value={this.state.firstName} />
                     </View>
                     <View style={styles.card}>
@@ -73,6 +77,13 @@ export default class Signature extends Component {
                             showTitleLabel={false}
                             viewMode={"portrait"} />
                     </View>
+                    {this.state.error ? (
+                        <View style={{
+                            width: 250, backgroundColor: '#F76B8A', justifyContent: 'center',
+                            alignItems: 'center', color: 'white', padding: 10, marginTop: 10, borderRadius: 10
+                        }}>
+                            <Text style={{ color: 'white' }}>{this.state.error}</Text>
+                        </View>) : null}
                 </View>
 
                 <View style={{
@@ -82,6 +93,7 @@ export default class Signature extends Component {
                     width: 250,
                     flexDirection: "row", justifyContent: "center"
                 }}>
+
                     <View >
                         <TouchableOpacity style={[styles.button, styles.plain]} onPress={() => { this.resetSign() }} >
                             <Text style={{ color: '#F76B8A' }}>Reset</Text>
@@ -99,8 +111,16 @@ export default class Signature extends Component {
     }
 
     saveSign() {
-        this.refs["sign"].saveImage();
-        this.props.navigation.navigate('Complete');
+        const consent = this.state.consent;
+        let [date] = new Date().toLocaleString('en-US').split(', ');
+        consent.signatureDate = date;
+        if (!consent.patientName) {
+            this.setState({ error: 'Fields cannot be empty' });
+        } else {
+            this.refs["sign"].saveImage();
+            this.props.updateConsent({ consent: consent });
+            this.props.navigation.navigate('Complete');
+        }
     }
 
     resetSign() {
@@ -119,14 +139,23 @@ export default class Signature extends Component {
             }
         }
         await CameraRoll.saveToCameraRoll(result.pathName, 'photo');
-
-
     }
     _onDragEvent() {
         // This callback will be called when the user enters signature
         console.log("dragged");
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    updateConsent: (consent) => dispatch(updateConsent(consent)),
+});
+
+const mapStateToProps = (state) => ({
+    user: state.user,
+    consent: state.consent
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signature);
 
 const styles = StyleSheet.create({
     signature: {

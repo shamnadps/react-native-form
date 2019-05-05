@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, WebView, Dimensions, Image } from 'react-native';
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
+import { connect } from 'react-redux';
+import { updateConsent } from '../../reducer/actions';
 
-export default class Complete extends Component {
+class Complete extends Component {
     static navigationOptions = {
         title: 'Completed',
         headerTitleStyle: { color: '#F76B8A', textAlign: 'center', alignSelf: 'center' },
@@ -16,17 +18,9 @@ export default class Complete extends Component {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            loginId: this.props.loginId,
-            password: this.props.password
+            user: this.props.user,
+            consent: this.props.consent
         }
-    }
-
-    handleLoginId = (loginId) => {
-        this.setState({ loginId: loginId });
-    }
-
-    handlePassword = (password) => {
-        this.setState({ password: password });
     }
 
     render() {
@@ -54,6 +48,17 @@ export default class Complete extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    updateConsent: (consent) => dispatch(updateConsent(consent)),
+});
+
+const mapStateToProps = (state) => ({
+    user: state.user,
+    consent: state.consent
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Complete);
 
 const styles = StyleSheet.create({
     container: {

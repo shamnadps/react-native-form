@@ -3,8 +3,10 @@ import { Platform, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpaci
 import commonStyles from '../common/styles';
 import Button from '../components/Button';
 import { RNCamera } from 'react-native-camera';
+import { connect } from 'react-redux';
+import { updateConsent } from '../../reducer/actions';
 
-export default class VideoConsent extends Component {
+class VideoConsent extends Component {
     static navigationOptions = {
         title: 'Video Consent',
         headerTitleStyle: { color: '#F76B8A', textAlign: 'center', alignSelf: 'center' },
@@ -16,17 +18,9 @@ export default class VideoConsent extends Component {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            loginId: this.props.loginId,
-            password: this.props.password
+            user: this.props.user,
+            consent: this.props.consent
         }
-    }
-
-    handleLoginId = (loginId) => {
-        this.setState({ loginId: loginId });
-    }
-
-    handlePassword = (password) => {
-        this.setState({ password: password });
     }
 
     takeVideo = async function () {
@@ -38,8 +32,10 @@ export default class VideoConsent extends Component {
                 if (promise) {
                     this.setState({ isRecording: true });
                     const { uri } = await promise;
-                    this.setState({ isRecording: false, processing: false });
-                    console.log('naivating to Video');
+                    this.setState({ isRecording: false, processing: false, error: '' });
+                    const consent = this.state.consent;
+                    consent.uri = uri;
+                    this.props.updateConsent({ consent: consent });
                     this.props.navigation.navigate('Video', {
                         uri: uri,
                     });
@@ -145,6 +141,17 @@ export default class VideoConsent extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    updateConsent: (consent) => dispatch(updateConsent(consent)),
+});
+
+const mapStateToProps = (state) => ({
+    user: state.user,
+    consent: state.consent
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoConsent);
 
 const styles = StyleSheet.create({
     container: {
