@@ -168,10 +168,12 @@ class Details extends Component {
             <View style={styles.container}>
 
                 <View style={styles.center}>
+                    
+                    <ScrollView contentContainerStyle={styles.containerStyle}>
                     <View style={styles.card}>
                         <Text style={{ color: '#F76B8A', fontWeight : 'bold' }}>Welcome {this.state.user.name}</Text>
                     </View>
-                    <ScrollView contentContainerStyle={styles.containerStyle}>
+                    
                         <View style={styles.card}>
                             <Text style={{ color: 'grey' }}>Responsible Surgeon</Text>
                             <TextInput

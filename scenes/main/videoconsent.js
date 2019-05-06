@@ -62,7 +62,7 @@ class VideoConsent extends Component {
 
         return (
             <View style={{
-                flex: 1, justifyContent: 'center', marginTop: 110,
+                flex: 1, justifyContent: 'center', margin: 10,
                 alignItems: 'center',
             }}>
                 <RNCamera
@@ -113,9 +113,10 @@ class VideoConsent extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {this.renderCamera()}
+
                 <View style={styles.center}>
                     <ScrollView contentContainerStyle={styles.containerStyle}>
+                        {this.renderCamera()}
                         <View style={{ width: 250, justifyContent: 'space-between' }}>
                             <Text>
                                 I have read/ understand the procedure, risks and complications. I have asked questions and raised any immediate concerns I might have. I understand another surgeon other than my consultant may perform the operation.(although they will have adequate training/ supervision).
@@ -132,6 +133,9 @@ class VideoConsent extends Component {
                                     )}
                             </TouchableOpacity>
                         </View >
+                        <View style={{ margin: 20 }}>
+
+                        </View>
                     </ScrollView>
 
                 </View >
@@ -158,13 +162,13 @@ const styles = StyleSheet.create({
         flex: 1, backgroundColor: 'white', flexDirection: "column"
     },
     center: {
-        flexGrow: 2,
+        flexGrow: 4,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
     },
     containerStyle: {
-        flexGrow: 2,
+        flexGrow: 4,
         justifyContent: 'center',
         alignItems: 'center',
     },
