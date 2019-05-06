@@ -19,7 +19,26 @@ class VideoConsent extends Component {
         const { navigation } = this.props;
         this.state = {
             user: this.props.user,
-            consent: this.props.consent
+            consent: this.props.consent,
+            flash: 'off',
+            zoom: 0,
+            depth: 0,
+            type: 'front',
+            whiteBalance: 'auto',
+            ratio: '16:9',
+            recordOptions: {
+                mute: false,
+                maxDuration: 60,
+                quality: RNCamera.Constants.VideoQuality['288p'],
+            },
+            isRecording: false,
+            canDetectFaces: false,
+            canDetectText: false,
+            canDetectBarcode: false,
+            faces: [],
+            textBlocks: [],
+            barcodes: [],
+            processing: false
         }
     }
 
