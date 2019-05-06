@@ -11,6 +11,7 @@ import Video from 'react-native-video';
 import CameraRoll from "@react-native-community/cameraroll";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import VideoPlayer from 'react-native-video-controls';
+import Permissions from 'react-native-permissions';
 
 export default class VideoScreen extends React.Component {
     static navigationOptions = {
@@ -26,8 +27,16 @@ export default class VideoScreen extends React.Component {
         processing: false
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+        const currentStatus = await Permissions.check('storage');
+        if (currentStatus !== 'authorized') {
+            const status = await Permissions.request('storage');
+
+            if (status !== 'authorized') {
+                return false;
+            }
+        }
     }
 
     componentWillUnmount() {
