@@ -91,7 +91,7 @@ export default class VideoScreen extends React.Component {
                                 <Text style={{ color: 'white' }}>Please wait. Processing.</Text>
                             </TouchableOpacity>
                         </View >
-                    </View>) : (<View style={{ flex: 0, borderColor: '#F76B8A', borderWidth: 1, paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
+                    </View>) : (<View style={{ flex: 0, borderColor: 'lightgrey', borderWidth: 1, paddingBottom: 40, flexDirection: "row", justifyContent: "center" }}>
                         <View style={styles.container}>
                             <TouchableOpacity style={[styles.button]} onPress={() => this.recordAgain()}>
                                 <Text style={{ color: 'white' }}>Record Again</Text>
